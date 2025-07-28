@@ -1,0 +1,60 @@
+
+# Returns whether the given command is executable or aliased.
+_has() {
+  return $(whence $1 >/dev/null)
+}
+# Prepend a directory to path, if it exists and isn't already in the path.
+_prepend_to_path() {
+  #echo "Fail"
+  #echo "path is: $path"
+  #echo "prepend: $1"
+  if [ -d $1 -a -z ${path[(r)$1]} ]; then
+    path=($1 $path);
+  fi
+}
+
+_include(){
+  [[ -f "$1" ]] && source "$1"
+}
+# Append a directory to path, if it exists and isn't already in the path.
+_append_to_path() {
+  if [ -d $1 -a -z ${path[(r)$1]} ]; then
+    path=($path $1);
+  fi
+}
+
+
+# autoload -Uz promptinit && promptinit && prompt  pure
+# general
+setopt auto_cd
+
+chpwd() {
+    # You can customize the 'ls' command here
+    ls -la --color=auto
+}
+# todo use this instead of aliases
+# https://github.com/ajeetdsouza/zoxide
+#export CDPATH=".:~/projects:~/documents"
+
+# PLugins and theming
+_include ~/.dotfiles/antidote/antidote.zsh
+antidote load
+zstyle ':completion:*' menu no
+eval "$(oh-my-posh init zsh --config ~/.oh-my-posh.yaml )"
+
+
+# xgd
+export XDG_CONFIG_HOME=$HOME/.xdg
+
+# go related 
+export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
+
+
+# vim related
+alias vim='nvim'
+alias vi='nvim'
+
+# python related
+alias python3="$(brew --prefix)/bin/python3"
