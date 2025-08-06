@@ -58,7 +58,7 @@ call plug#begin()
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'cmhamill/vim-jrnl'
-
+Plug 'romgrk/barbar.nvim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 

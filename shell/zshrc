@@ -42,7 +42,8 @@ antidote load
 zstyle ':completion:*' menu no
 eval "$(oh-my-posh init zsh --config ~/.oh-my-posh.yaml )"
 
-
+# bind Ctrl+R to fzf history search
+source <(fzf --zsh)
 # xgd
 export XDG_CONFIG_HOME=$HOME/.xdg
 
