@@ -33,6 +33,7 @@ blocks:
         powerline_symbol: 
         background: "#bd93f9"
         type: path
+        style: powerline
       - type: git
         style: powerline
         powerline_symbol: 
@@ -40,6 +41,7 @@ blocks:
         background: "#50fa7b"
         background_templates:
           - "{{ if or (.Working.Changed) (.Staging.Changed) }}#f1fa8c{{ end }}"
+        template: "{{ .UpstreamIcon }} {{ .Ref }} {{ .BranchStatus }}{{ if .Staging.Changed }} ⬆️ {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0}} \uF692 {{ .StashCount }}{{ end }}{{ if gt .WorktreeCount 0}} \uf1bb {{ .WorktreeCount }}{{ end }}"
 
         # background_templates:
         #   - "{{ if gt .Ahead 0 }}#f1fa8c{{ end }}"
