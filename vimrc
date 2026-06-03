@@ -28,7 +28,7 @@ set expandtab
 set completeopt=longest,menu
 set wildmode=list:longest,list:full
 set complete=.,t
-
+let mapleader = ","
 " Remap :w and :q to allow the capital letter versions.
 command! Q q
 command! W w
@@ -58,6 +58,9 @@ call plug#begin()
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'cmhamill/vim-jrnl'
+Plug 'romgrk/barbar.nvim'
+Plug 'nvim-tree/nvim-web-devicons' " OPTIONAL: for file icons
+Plug 'lewis6991/gitsigns.nvim' " OPTIONAL: for git status
 Plug 'romgrk/barbar.nvim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -213,10 +216,14 @@ map <Leader>k <Plug>(easymotion-k)
 let g:coc_disable_startup_warning = 1
 
 " tabmotions  //t to open empty new tab
-nnoremap t :tabnew<CR>
-nnoremap <C-t> :tabclose<CR>
-nnoremap <S-k> :tabn<CR>
-nnoremap <S-j> :tabp<CR>
+nnoremap t :BufferNew<CR>
+nnoremap <C-t> :BufferClose<CR>
+" nvim tabswitch
+nnoremap <S-k> :BufferNext<CR>
+nnoremap <S-j> :BufferPrevious<CR>
+
+"nnoremap <S-k> :tabn<CR>
+"nnoremap <S-j> :tabp<CR>
 nnoremap <C-x> :q!<CR>
 " configs for utilssnippt
 let g:UltiSnipsExpandTrigger="<Enter>"

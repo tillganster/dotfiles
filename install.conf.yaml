@@ -15,6 +15,8 @@
     ~/.vimrc: vimrc
     ~/.xdg/nvim/init.vim: vimrc
 
+    ~/.tmux.conf: shell/tmux.conf
+
     "~/Library/Application Support/Code/User/settings.json":
       path: vscode/settings.json
       create: true
