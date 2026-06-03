@@ -100,8 +100,8 @@ call plug#end()
 " Map ctrl-n to toggle NERDTree.
 map <C-n> :NERDTreeToggle<CR>
 
-autocmd FileType nerdtree nnoremap <buffer> <S-k> :tabn<CR>
-autocmd FileType nerdtree nnoremap <buffer> <S-j> :tabp<CR>
+autocmd FileType nerdtree nnoremap <buffer> <S-k> :BufferNext<CR>
+autocmd FileType nerdtree nnoremap <buffer> <S-j> :BufferPrevious<CR>
 
 " case only matters with mixed case expressions
 set ignorecase
@@ -214,8 +214,8 @@ let g:coc_disable_startup_warning = 1
 " tabmotions  //t to open empty new tab
 nnoremap t :tabnew<CR>
 nnoremap <C-t> :tabclose<CR>
-nnoremap <S-k> :tabn<CR>
-nnoremap <S-j> :tabp<CR>
+nnoremap <S-k> :BufferNext<CR>
+nnoremap <S-j> :BufferPrevious<CR>
 nnoremap <C-x> :q!<CR>
 " configs for utilssnippt
 let g:UltiSnipsExpandTrigger="<Enter>"
