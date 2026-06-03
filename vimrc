@@ -57,6 +57,7 @@ call plug#begin()
 
 Plug 'cmhamill/vim-jrnl'
 Plug 'romgrk/barbar.nvim'
+Plug 'nvim-tree/nvim-web-devicons'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
