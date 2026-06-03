@@ -42,7 +42,7 @@ command! Wqa wqa
 command! WQa wqa
 command! WQA wqa
 
-
+let mapleader=","
 " Instal vim-plug if it doesn't exist.
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -55,8 +55,6 @@ endif
 " Load plugins
 call plug#begin()
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
 Plug 'cmhamill/vim-jrnl'
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -64,16 +62,23 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'vim-airline/vim-airline', { 'tag': 'v0.10' }
 
-"if executable('node')
-"  Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-"endif
+if executable('node')
+  Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+endif
+
+" telescope for better fzf etc
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'fannheyward/telescope-coc.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+
 
 Plug 'sheerun/vim-polyglot', { 'tag': 'v4.4.3' }
 Plug 'google/vim-maktaba', { 'tag': 'v0.15.0' }
 Plug 'bazelbuild/vim-bazel'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 Plug 'stephpy/vim-yaml'
-
+"Plug 'crusoexia/vim-dracula'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'andrewstuart/vim-kubernetes'
@@ -82,13 +87,19 @@ Plug 'honza/vim-snippets'
 Plug 'tpope/vim-fugitive', { 'tag': 'v3.0' }
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 install.py' }
+" Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 install.py' }
 Plug 'easymotion/vim-easymotion'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+
+" completion 
+" For vsnip users.
 call plug#end()
 
 " Map ctrl-n to toggle NERDTree.
 map <C-n> :NERDTreeToggle<CR>
+
+autocmd FileType nerdtree nnoremap <buffer> <S-k> :tabn<CR>
+autocmd FileType nerdtree nnoremap <buffer> <S-j> :tabp<CR>
 
 " case only matters with mixed case expressions
 set ignorecase
@@ -107,9 +118,8 @@ if (&t_Co > 2 || has("gui_running"))
 
   " Color scheme
   syntax enable
-  set background=dark
-  " solarized won't exist if we didn't run :PlugInstall
-  silent! colorscheme dracula
+  set termguicolors
+  colorscheme dracula
 endif
 
 " Only do this part when compiled with support for autocommands.
@@ -150,29 +160,14 @@ else
   set autoindent
 endif " has("autocmd")
 
-if executable('fzf')
-  " Remap ctrl-P to execute fzf :)
-  nnoremap <silent> <C-p> :Files<CR>
-
-  command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-  " Remap ctrl-m (and enter key) to toggle open files.
-  nnoremap <silent> <C-m> :Windows<CR>
-endif
-
 if executable('rg')
-  " Space key will open up search.
-  nnoremap <Space> :Rg<CR>
-  nnoremap <leader><Space> :Rg!<CR>
-
-  " Use rg for :grep if available. But we should prefer to use :Rg.
   set grepprg=rg\ --vimgrep\ --color=never\ --no-heading\ --hidden
-
-  let $FZF_DEFAULT_COMMAND = 'rg --hidden -l ""'
-
-  let g:gutentags_file_list_command = 'rg --files'
 endif
+" Telescope mappings
+nnoremap <silent> <C-p> :<C-u>Telescope find_files hidden=true<CR>
+nnoremap <silent> <C-f> :<C-u>Telescope live_grep<CR>
+nnoremap <silent> <leader><Space> :<C-u>Telescope grep_string<CR>
+nnoremap <silent> <C-m> :<C-u>Telescope buffers<CR>
 
 " Set up vim airline
 let g:airline_powerline_fonts = 1
@@ -186,6 +181,9 @@ let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#tabline#show_buffers = 0
 
 " coc.nvim config
+if filereadable(glob("~/.vimrc.coc"))
+  source ~/.vimrc.coc
+endif
 
 " Local config
 if filereadable(glob("~/.vimrc.local"))
@@ -219,3 +217,7 @@ nnoremap <S-j> :tabp<CR>
 nnoremap <C-x> :q!<CR>
 " configs for utilssnippt
 let g:UltiSnipsExpandTrigger="<Enter>"
+
+nnoremap <C-s> :w<CR>
+inoremap <C-s> <Esc>:w<CR>a
+inoremap <C-w> <Esc><C-w>

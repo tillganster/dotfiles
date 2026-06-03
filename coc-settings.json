@@ -1,0 +1,49 @@
+{
+  "coc.preferences.formatOnSave": true,
+  "coc.preferences.jumpCommand": "edit",
+
+  "suggest.noselect": true,
+  "suggest.enablePreview": true,
+  "suggest.floatEnable": true,
+
+  "list.floatEnable": true,
+  "list.maxHeight": 20,
+  "coc.preferences.useQuickfixForLocations": false,
+
+  "diagnostic.errorSign": "✖",
+  "diagnostic.warningSign": "⚠",
+  "diagnostic.infoSign": "ℹ",
+  "diagnostic.hintSign": "➤",
+
+  "pyright.enable": true,
+  "pyright.inlayHints.variableTypes": false,
+  "pyright.inlayHints.functionReturnTypes": false,
+  "python.analysis.autoImportCompletions": true,
+
+  "go.enable": true,
+  "go.goplsOptions": {
+    "usePlaceholders": true,
+    "completeUnimported": true,
+    "staticcheck": true,
+    "analyses": {
+      "unusedparams": true
+    }
+  },
+
+  "tsserver.enable": true,
+  "tsserver.formatOnType": true,
+  "typescript.suggest.autoImports": true,
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "javascript.suggest.autoImports": true,
+  "javascript.preferences.quoteStyle": "single",
+
+  "kotlin.enabled": true,
+  "kotlin.compiler.jvm.target": "21",
+  "kotlin.languageServer.enabled": true,
+  "kotlin.languageServer.path": "",
+  "kotlin.java.opts": "",
+
+  "github-enterprise.uri": "https://mercedes-benz.ghe.com"
+}
