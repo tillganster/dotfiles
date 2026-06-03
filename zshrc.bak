@@ -80,7 +80,7 @@ bindkey -v # vi mode for shell
 bindkey -e # enable C-x-e for shell editor
 # key bindings for history search
 bindkey '\e[3~' delete-char
-bindkey '^R' history-incremental-search-backward
+bindkey '^R' fzf-history-widget
 
 setopt correct
 setopt rmstarsilent # silence rm * confirmation

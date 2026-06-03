@@ -42,7 +42,8 @@ antidote load
 zstyle ':completion:*' menu no
 eval "$(oh-my-posh init zsh --config ~/.oh-my-posh.yaml )"
 
-
+# bind Ctrl+R to fzf history search
+source <(fzf --zsh)
 # xgd
 export XDG_CONFIG_HOME=$HOME/.xdg
 
@@ -58,3 +59,8 @@ alias vi='nvim'
 
 # python related
 alias python3="$(brew --prefix)/bin/python3"
+export NVM_DIR="$HOME/.xdg/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+source "$HOME/.sdkman/bin/sdkman-init.sh"

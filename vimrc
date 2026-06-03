@@ -56,7 +56,7 @@ endif
 call plug#begin()
 
 Plug 'cmhamill/vim-jrnl'
-
+Plug 'romgrk/barbar.nvim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
@@ -76,7 +76,8 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'sheerun/vim-polyglot', { 'tag': 'v4.4.3' }
 Plug 'google/vim-maktaba', { 'tag': 'v0.15.0' }
 Plug 'bazelbuild/vim-bazel'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+"Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'npm install'}
 Plug 'stephpy/vim-yaml'
 "Plug 'crusoexia/vim-dracula'
 Plug 'dracula/vim', { 'as': 'dracula' }

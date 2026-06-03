@@ -108,5 +108,9 @@
   "go.toolsManagement.autoUpdate": true,
   "[dotenv]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "python.defaultInterpreterPath": "/opt/homebrew/bin/python",
+  "[latex]": {
+    "editor.defaultFormatter": "James-Yu.latex-workshop"
   }
 }
