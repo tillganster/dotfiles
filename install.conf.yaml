@@ -12,8 +12,11 @@
     ~/.zsh_plugins.txt: shell/zshplugins
     ~/.oh-my-posh.yaml: shell/oh-my-posh.yaml
 
+    ~/.tmux.conf: shell/tmux.conf
+
     ~/.vimrc: vimrc
     ~/.xdg/nvim/init.vim: vimrc
+
 
     "~/Library/Application Support/Code/User/settings.json":
       path: vscode/settings.json

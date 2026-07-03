@@ -37,44 +37,36 @@ blocks:
       - type: git
         style: powerline
         powerline_symbol: 
-        foreground: "#193549"
-        background: "#50fa7b"
+        #foreground: "#1E1E2E"
+        #background: "#A6E3A1"
+        
         background_templates:
-          - "{{ if or (.Working.Changed) (.Staging.Changed) }}#f1fa8c{{ end }}"
-        template: "{{ .UpstreamIcon }} {{ .Ref }} {{ .BranchStatus }}{{ if .Staging.Changed }} ⬆️ {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0}} \uF692 {{ .StashCount }}{{ end }}{{ if gt .WorktreeCount 0}} \uf1bb {{ .WorktreeCount }}{{ end }}"
-
-        # background_templates:
-        #   - "{{ if gt .Ahead 0 }}#f1fa8c{{ end }}"
-        #   - "{{ if gt .Behind 0 }}#f1fa8c{{ end }}"
-        #   - ”{{if or (.Working.Changed) (.Staging.Changed) }}#bd93f9{{ end }}”
-        # - "{{ if or (.Working.Changed) (.Staging.Changed) }}#FFEB3B{{ end }}"
-        # - "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#50FA7B{{ end }}"
-
-        # "template": "{{ .UpstreamIcon }} | {{ .Ref }} {{ .BranchStatus }}{{ if .Working.Changed }} \uF044 {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uF046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0}} \uF692 {{ .StashCount }}{{ end }}{{ if gt .WorktreeCount 0}} \uf1bb {{ .WorktreeCount }}{{ end }}"
-
+          - "{{ if .UpstreamGone }}#F38BA8{{ end }}"
+          - "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow{{ end }}"
+          - "{{ if gt .Staging.Unmerged 0 }}p:orange{{ end }}"
+          - "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FAB387{{ end }}"
+          - "{{ if gt .Ahead 0 }}#CBA6F7{{ end }}"
+          - "{{ if gt .Behind 0 }}#89B4FA{{ end }}"
+        
+        template: >-
+          {{ " " }}{{ .UpstreamIcon }} {{ .HEAD }}        
         properties:
-          fetch_status: true
-          fetch_upstream_icon: true
-          untracked_modes:
-            /Users/user/Projects/oh-my-posh/: no
-          source: cli
-          mapped_branches:
-            feat/*: "🚀 "
-            bug/*: "🐛 "
-      - template: "  {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} "
-        foreground: "#ffffff"
-        powerline_symbol: 
-        background: "#8be9fd"
-        type: node
-        style: powerline
-      - properties:
-          time_format: "15:04"
-        template: " ♥ {{ .CurrentDate | date .Format }} "
-        trailing_diamond: 
-        foreground: "#ffffff"
-        background: "#ff79c6"
-        type: time
-        style: diamond
-
+          branch_icon: " "
+          branch_identical_icon: ≡
+          branch_ahead_icon: ↑
+          branch_behind_icon: ↓
+          branch_gone_icon: ≢
+          commit_icon: " "
+          tag_icon: " "
+          rebase_icon: " "
+          cherry_pick_icon: " "
+          revert_icon: " "
+          merge_icon: " "
+          no_commits_icon: "󰜄 "
+          github_icon: " "
+          gitlab_icon: " "
+          bitbucket_icon: " "
+          azure_devops_icon: " "
+          git_icon: " "   
 version: 3
 final_space: true

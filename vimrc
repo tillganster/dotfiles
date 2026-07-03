@@ -71,8 +71,9 @@ endif
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'fannheyward/telescope-coc.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
+" clipboard history 
+Plug 'ptdewey/yankbank-nvim'
 
 Plug 'sheerun/vim-polyglot', { 'tag': 'v4.4.3' }
 Plug 'google/vim-maktaba', { 'tag': 'v0.15.0' }
@@ -96,6 +97,14 @@ Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 " completion 
 " For vsnip users.
 call plug#end()
+
+" Yank history with overlay 
+lua << EOF
+require('yankbank').setup()
+EOF
+
+" Map ctrl-c to toggle yankbank 
+map <C-c> :YankBank<CR>
 
 " Map ctrl-n to toggle NERDTree.
 map <C-n> :NERDTreeToggle<CR>
