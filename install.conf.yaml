@@ -8,22 +8,34 @@
 - clean: ["~"]
 
 - link:
-    ~/.zshrc: shell/zshrc
-    ~/.zsh_plugins.txt: shell/zshplugins
-    ~/.oh-my-posh.yaml: shell/oh-my-posh.yaml
+    # ~/.zshrc: shell/zshrc
+    # ~/.zsh_plugins.txt: shell/zshplugins
+    # ~/.oh-my-posh.yaml: shell/oh-my-posh.yaml
 
     ~/.tmux.conf: shell/tmux.conf
 
     ~/.vimrc: vimrc
-    ~/.xdg/nvim/init.vim: vimrc
-
-
-    "~/Library/Application Support/Code/User/settings.json":
-      path: vscode/settings.json
+    ~/.xdg/nvim/init.vim:
+      path: vimrc
       create: true
-      force: true
+    ~/.vimrc.coc: vimrc.coc
+    ~/.vim/coc-settings.json:
+      path: coc-settings.json
+      create: true
+    ~/.xdg/nvim/coc-settings.json:
+      path: coc-settings.json
+      create: true
+    # "~/Library/Application Support/Code/User/settings.json":
+    #   path: vscode/settings.json
+    #   create: true
+    #   force: true
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
     - [brew install jandedobbeleer/oh-my-posh/oh-my-posh, Installing oh my posh]
-    - [bash -c "vscode/install_extensions.sh", Installing VSCode extensions]
+    - [
+        "[ -d shell ] && git clone https://github.com/dracula/iterm.git ~/iterm2-dracula",
+        Installing Dracula theme for iTerm2,
+      ]
+
+    #- [bash -c "vscode/install_extensions.sh", Installing VSCode extensions]

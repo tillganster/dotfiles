@@ -78,8 +78,8 @@ Plug 'ptdewey/yankbank-nvim'
 Plug 'sheerun/vim-polyglot', { 'tag': 'v4.4.3' }
 Plug 'google/vim-maktaba', { 'tag': 'v0.15.0' }
 Plug 'bazelbuild/vim-bazel'
-"Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
-Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'npm install'}
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+"Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'npm install'}
 Plug 'stephpy/vim-yaml'
 "Plug 'crusoexia/vim-dracula'
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -87,12 +87,14 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'andrewstuart/vim-kubernetes'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+"Plug 'neoclide/coc-snippets'
 Plug 'tpope/vim-fugitive', { 'tag': 'v3.0' }
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 install.py' }
 Plug 'easymotion/vim-easymotion'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+
 
 " completion 
 " For vsnip users.
@@ -230,5 +232,6 @@ nnoremap <C-x> :q!<CR>
 let g:UltiSnipsExpandTrigger="<Enter>"
 
 nnoremap <C-s> :w<CR>
-inoremap <C-s> <Esc>:w<CR>a
+inoremap <C-s> <Esc>:w<CR>
 inoremap <C-w> <Esc><C-w>
+

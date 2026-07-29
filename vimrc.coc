@@ -17,7 +17,8 @@ let g:coc_global_extensions = [
   \ 'coc-kotlin',
   \ 'coc-json',
   \ 'coc-yaml',
-  \ 'coc-github-copilot'
+  \ 'coc-github-copilot',
+  \ 'coc-pairs'
   \ ]
 
 " Prevent vim-go from registering its own gd so CoC owns it
@@ -178,7 +179,7 @@ require("telescope").setup({
   },
 })
 require("telescope").load_extension("coc")
-require('telescope').load_extension('fzf')
+
 EOF
 
 augroup coc_config
