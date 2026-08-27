@@ -19,6 +19,7 @@
       path: vimrc
       create: true
     ~/.vimrc.coc: vimrc.coc
+    ~/.vimrc.dap: vimrc.dap
     ~/.vim/coc-settings.json:
       path: coc-settings.json
       create: true

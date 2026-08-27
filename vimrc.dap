@@ -1,0 +1,75 @@
+lua << EOF
+local dap = require("dap")
+local dapui = require("dapui")
+
+require("mason").setup()
+
+require("mason-nvim-dap").setup({
+  ensure_installed = {
+    "js",
+    "node2"
+  },
+  automatic_installation = true,
+})
+
+dapui.setup()
+
+dap.listeners.before.attach.dapui_config = function()
+  dapui.open()
+end
+
+dap.listeners.before.launch.dapui_config = function()
+  dapui.open()
+end
+-- dap.listeners.before.event_terminated.dapui_config = function()
+--   dapui.close()
+-- end
+-- 
+-- dap.listeners.before.event_exited.dapui_config = function()
+--   dapui.close()
+-- end
+
+-- 1. Define adapter
+dap.adapters["pwa-node"] = {
+  type = "server",
+  host = "localhost",
+  port = "${port}",
+  executable = {
+    command = "node",
+    args = {
+      vim.fn.stdpath("data")
+        .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
+      "${port}",
+    },
+  },
+}
+
+-- 2. Alias "node"
+dap.adapters["node"] = dap.adapters["pwa-node"]
+
+require("dap.ext.vscode").load_launchjs(nil, {
+  ["pwa-node"] = {
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+  },
+
+  ["node"] = {
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+  },
+})
+EOF
+
+nnoremap <F5> <Cmd>lua require("dap").continue()<CR>
+nnoremap <F9> <Cmd>lua require("dap").toggle_breakpoint()<CR>
+nnoremap <F10> <Cmd>lua require("dap").step_over()<CR>
+nnoremap <F11> <Cmd>lua require("dap").step_into()<CR>
+nnoremap <F12> <Cmd>lua require("dap").step_out()<CR>
+
+nnoremap <leader>du <Cmd>lua require("dapui").toggle()<CR>
+nnoremap <leader>dt <Cmd>lua require("dap").terminate()<CR>
+nnoremap <leader>db <Cmd>lua require("dap").toggle_breakpoint()<CR>

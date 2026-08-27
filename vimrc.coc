@@ -51,8 +51,38 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr :<C-u>Telescope coc references<CR>
 
+" Give CoC's floating windows (hover, signature help, etc.) a background and
+" border that stand out from the editor background, since the default
+" CocFloating highlight can end up nearly indistinguishable from Normal.
+function! s:setup_coc_float_highlights() abort
+  hi CocFloating    guibg=#44475a guifg=#f8f8f2
+  hi CocFloatBorder guifg=#bd93f9 guibg=#44475a
+  hi CocFloatActive guifg=#50fa7b guibg=#44475a
+  " Completion popup menu: unselected items sit on CocFloating's bg;
+  " give the selected (tabbed-to) item a strongly contrasting highlight.
+  hi CocPumMenu   guibg=#44475a guifg=#f8f8f2
+  hi CocMenuSel   guibg=#bd93f9 guifg=#282a36 gui=bold cterm=bold
+endfunction
+
+" coc.nvim itself resets these on VimEnter/ColorScheme (see s:Highlight() in
+" plugin/coc.vim, registered at plug#end() time, i.e. before this file is
+" sourced). Re-apply ours afterwards on the same events so they stick.
+call s:setup_coc_float_highlights()
+autocmd VimEnter,ColorScheme * call s:setup_coc_float_highlights()
+
+call coc#config('hover', {
+  \ 'floatConfig': {
+  \   'border': v:true,
+  \   'highlight': 'CocFloating',
+  \   'borderhighlight': 'CocFloatBorder',
+  \   'winblend': 0
+  \ }
+  \ })
+
 " Hover documentation
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> <leader>K :call CocActionAsync('doHover')<CR>
+nnoremap <silent> gh  =CocActionAsync('showSignatureHelp')<CR>
 
 function! s:show_documentation()
   if index(['vim', 'help'], &filetype) >= 0
@@ -63,6 +93,46 @@ function! s:show_documentation()
     execute '!' . &keywordprg . ' ' . expand('<cword>')
   endif
 endfunction
+
+" Type-under-cursor for the statusline: fetch hover info without popping
+" any UI, keep the first meaningful line, and surface it via airline.
+let g:coc_hover_type = ''
+
+function! s:set_coc_hover_type(err, hovers) abort
+  let l:type = ''
+  if empty(a:err) && type(a:hovers) == v:t_list && len(a:hovers) > 0
+    for l:line in split(a:hovers[0], "\n")
+      let l:line = trim(l:line)
+      if l:line !=# '' && l:line !~# '^```'
+        let l:type = l:line
+        break
+      endif
+    endfor
+  endif
+  if strchars(l:type) > 80
+    let l:type = strcharpart(l:type, 0, 80) . '...'
+  endif
+  let g:coc_hover_type = l:type
+  if exists('*airline#update_statusline')
+    call airline#update_statusline()
+  endif
+endfunction
+
+function! s:update_coc_hover_type() abort
+  if !coc#rpc#ready()
+    return
+  endif
+  call CocActionAsync('getHover', '', function('s:set_coc_hover_type'))
+endfunction
+
+function! CocHoverTypeStatus() abort
+  return get(g:, 'coc_hover_type', '')
+endfunction
+
+if exists('*airline#parts#define_raw')
+  call airline#parts#define_raw('coc_type', '%{CocHoverTypeStatus()}')
+  let g:airline_section_x = airline#section#create_right(['coc_type', 'filetype'])
+endif
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
@@ -186,4 +256,5 @@ augroup coc_config
   autocmd!
   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  autocmd CursorHold,CursorHoldI * call s:update_coc_hover_type()
 augroup END

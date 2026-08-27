@@ -75,7 +75,6 @@ Plug 'fannheyward/telescope-coc.nvim'
 " clipboard history 
 Plug 'ptdewey/yankbank-nvim'
 
-Plug 'sheerun/vim-polyglot', { 'tag': 'v4.4.3' }
 Plug 'google/vim-maktaba', { 'tag': 'v0.15.0' }
 Plug 'bazelbuild/vim-bazel'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
@@ -95,14 +94,81 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'easymotion/vim-easymotion'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
+" git integrations 
+Plug 'lewis6991/gitsigns.nvim'
+" Debugging 
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'nvim-neotest/nvim-nio'
 
-" completion 
-" For vsnip users.
+Plug 'mason-org/mason.nvim'
+Plug 'jay-babu/mason-nvim-dap.nvim'
+
+
+" command palette helper stuff
+Plug 'folke/which-key.nvim'
 call plug#end()
 
-" Yank history with overlay 
+
+
+
+" which-key: shows a popup of available keybindings after you press a
+" prefix key (e.g. <leader>) and pause. Also register human-readable names
+" for the leader-prefixed groups used throughout this config so the popup
+" is legible instead of just showing raw command text.
+lua << EOF
+local wk = require("which-key")
+wk.setup({})
+wk.add({
+  { "<leader>h", group = "git hunk" },
+  { "<leader>t", group = "toggle" },
+  { "<leader>l", group = "coc list" },
+  { "<leader>a", group = "code action" },
+  { "<leader>f", desc = "format selection" },
+  { "<leader>.", desc = "code action (cursor)" },
+  { "<leader>rn", desc = "rename symbol" },
+  { "<leader>qf", desc = "quickfix" },
+  { "<leader>K", desc = "coc hover" },
+  { "<leader><space>", desc = "grep word under cursor" },
+  { "<leader>j", desc = "easymotion down" },
+  { "<leader>k", desc = "easymotion up" },
+  { "<leader>?", desc = "search all keymaps (Telescope)" },
+})
+vim.keymap.set("n", "<leader>wk", function() wk.show() end, { desc = "show all keybindings (which-key root)" })
+EOF
+
+" Yank history with overlay
 lua << EOF
 require('yankbank').setup()
+EOF
+
+" gitsigns — git hunk navigation and staging
+lua << EOF
+require('gitsigns').setup({
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+    local function map(mode, l, r, desc)
+      vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
+    end
+
+    -- Hunk navigation (C-j/C-k chosen over [/] to avoid German keyboard awkwardness)
+    map('n', '<C-j>', gs.next_hunk, 'Next hunk')
+    map('n', '<C-k>', gs.prev_hunk, 'Prev hunk')
+
+    -- Hunk operations
+    map('n', '<leader>hs', gs.stage_hunk,      'Stage hunk')
+    map('n', '<leader>hr', gs.reset_hunk,      'Reset hunk')
+    map('n', '<leader>hu', gs.undo_stage_hunk, 'Undo stage hunk')
+    map('n', '<leader>hp', gs.preview_hunk,    'Preview hunk')
+    map('n', '<leader>hb', function() gs.blame_line({ full = true }) end, 'Blame line')
+
+    -- Toggle views
+    map('n', '<leader>tb', gs.toggle_current_line_blame, 'Toggle line blame')
+    map('n', '<leader>td', gs.toggle_deleted,            'Toggle deleted')
+    map('n', '<leader>tw', gs.toggle_word_diff,          'Toggle word diff')
+    map('n', '<leader>tf', function() vim.cmd('Git blame') end, 'Toggle file blame')
+  end
+})
 EOF
 
 " Map ctrl-c to toggle yankbank 
@@ -181,6 +247,16 @@ nnoremap <silent> <C-p> :<C-u>Telescope find_files hidden=true<CR>
 nnoremap <silent> <C-f> :<C-u>Telescope live_grep<CR>
 nnoremap <silent> <leader><Space> :<C-u>Telescope grep_string<CR>
 nnoremap <silent> <C-m> :<C-u>Telescope buffers<CR>
+" Fuzzy-searchable list of all keymaps (with descriptions) - use this when
+" you don't remember a shortcut and want to search by name instead of
+" browsing the which-key tree.
+nnoremap <silent> <leader>? :<C-u>Telescope keymaps<CR>
+" VSCode-style command palette shortcut. Note: most terminals don't
+" distinguish Ctrl-Shift-p from Ctrl-p unless they send full Kitty/CSI-u
+" keycodes (Kitty, WezTerm, some iTerm2/Alacritty setups) - if this doesn't
+" fire, check your terminal's keyboard protocol support.
+nnoremap <silent> <C-S-p> :<C-u>Telescope keymaps<CR>
+inoremap <silent> <C-S-p> <Esc>:<C-u>Telescope keymaps<CR>
 
 " Set up vim airline
 let g:airline_powerline_fonts = 1
@@ -196,6 +272,11 @@ let g:airline#extensions#tabline#show_buffers = 0
 " coc.nvim config
 if filereadable(glob("~/.vimrc.coc"))
   source ~/.vimrc.coc
+endif
+
+" dap debugger conf 
+if filereadable(glob("~/.vimrc.dap"))
+  source ~/.vimrc.dap
 endif
 
 " Local config
