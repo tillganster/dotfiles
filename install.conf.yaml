@@ -15,15 +15,12 @@
     ~/.tmux.conf: shell/tmux.conf
 
     ~/.vimrc: vimrc
-    ~/.xdg/nvim/init.vim:
-      path: vimrc
+    ~/.xdg/nvim:
+      path: nvim/
       create: true
     ~/.vimrc.coc: vimrc.coc
     ~/.vimrc.dap: vimrc.dap
     ~/.vim/coc-settings.json:
-      path: coc-settings.json
-      create: true
-    ~/.xdg/nvim/coc-settings.json:
       path: coc-settings.json
       create: true
     # "~/Library/Application Support/Code/User/settings.json":
